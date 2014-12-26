@@ -67,10 +67,15 @@ console.log("Invaded!");
     this.size = { x:15, y:15 };
     this.center = { x: gameSize.x / 2, y: gameSize.y - this.size.x };
     this.keyboarder = new Keyboarder();
+    this.firingDelay = 0;
   };
 
   Player.prototype = {
     update: function() {
+
+      if (this.firingDelay > 0) {
+        this.firingDelay -= 1;
+      }
 
       if (this.keyboarder.isDown(this.keyboarder.KEYS.LEFT)) {
         this.center.x -= 2;
@@ -79,6 +84,7 @@ console.log("Invaded!");
       }
 
       if (this.keyboarder.isDown(this.keyboarder.KEYS.SPACE)) {
+        if ( this.firingDelay == 0 ) {
           var bullet = new Bullet( { x: this.center.x,
             y: (this.center.y - this.center.x / 2)},
             {x: 0, y: -6}
@@ -86,6 +92,8 @@ console.log("Invaded!");
           this.game.addBody( bullet );
           this.game.shootSound.load();
           this.game.shootSound.play();
+          this.firingDelay = 20;
+        }
       }
     }
   };
