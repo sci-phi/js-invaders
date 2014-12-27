@@ -68,6 +68,9 @@ console.log("Invaded!");
     this.center = { x: gameSize.x / 2, y: gameSize.y - this.size.x };
     this.keyboarder = new Keyboarder();
     this.firingDelay = 0;
+
+    this.fillColor = 'black';
+    this.bulletColor = 'blue';
   };
 
   Player.prototype = {
@@ -87,7 +90,8 @@ console.log("Invaded!");
         if ( this.firingDelay == 0 ) {
           var bullet = new Bullet( { x: this.center.x,
             y: (this.center.y - this.center.x / 2)},
-            {x: 0, y: -6}
+            {x: 0, y: -6},
+            this.bulletColor
           );
           this.game.addBody( bullet );
           this.game.shootSound.load();
@@ -98,10 +102,11 @@ console.log("Invaded!");
     }
   };
 
-  var Bullet = function( center, velocity ) {
+  var Bullet = function( center, velocity, color ) {
     this.size = { x:3, y:3 };
     this.center = center;
     this.velocity = velocity;
+    this.fillColor = color;
   };
 
   Bullet.prototype = {
@@ -117,6 +122,9 @@ console.log("Invaded!");
     this.center  = center;
     this.patrolX = 0;
     this.speedX  = 0.3;
+
+    this.fillColor = 'lime'; // aliens are green!
+    this.bulletColor = 'red';
   };
 
   Invader.prototype = {
@@ -132,7 +140,8 @@ console.log("Invaded!");
         // fires a bullet
         var bullet = new Bullet( { x:this.center.x,
             y: this.center.y + (this.size.x / 2) },
-          { x: Math.random() - 0.5, y: 2 }
+          { x: Math.random() - 0.5, y: 2 },
+          this.bulletColor
           );
         this.game.addBody(bullet);
       }
@@ -154,6 +163,7 @@ console.log("Invaded!");
   }
 
   var drawRect = function( screen, body ) {
+    screen.fillStyle = body.fillColor ;
     screen.fillRect( (body.center.x - (body.size.x / 2)),
                      (body.center.y - (body.size.y / 2)),
                      body.size.x, body.size.y
