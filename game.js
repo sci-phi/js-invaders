@@ -1,8 +1,7 @@
-console.log("Invaded!");
-
 ;(function(){
 
   var Game = function(canvasId) {
+
     var canvas = document.getElementById(canvasId);
     var screen = canvas.getContext('2d');
     var gameSize = { x: canvas.width, y: canvas.height };
@@ -12,13 +11,19 @@ console.log("Invaded!");
     var self = this;
 
     loadSound( "shoot.mp3", function( shootSound ) {
+
       self.shootSound = shootSound;
 
       var tick = function() {
         self.update();
         self.draw(screen, gameSize);
         // Key Callback Loop
-        requestAnimationFrame(tick);
+
+        if (self.invaderBodies().length === 0){
+          self.levelCleared( screen, gameSize );
+        } else {
+          requestAnimationFrame(tick);
+        }
       };
 
       tick();
@@ -58,6 +63,16 @@ console.log("Invaded!");
           (b.center.y > invader.center.y) &&
           ((b.center.x - invader.center.x) < invader.size.x)
       }).length > 0;
+    },
+
+    invaderBodies: function() {
+      return this.bodies.filter( function( b ){ return b instanceof Invader } );
+    },
+
+    levelCleared: function( screen, gameSize ) {
+      console.log("Level Cleared!!!" );
+      screen.clearRect( 0, 0, gameSize.x, gameSize.y );
+      screen.fillText( "Level Cleared!", (gameSize.x / 2), (gameSize.y / 2) );
     }
 
   };
@@ -68,7 +83,6 @@ console.log("Invaded!");
     this.center = { x: gameSize.x / 2, y: gameSize.y - this.size.x };
     this.keyboarder = new Keyboarder();
     this.firingDelay = 0;
-
     this.fillColor = 'black';
     this.bulletColor = 'blue';
   };
@@ -93,6 +107,7 @@ console.log("Invaded!");
             {x: 0, y: -6},
             this.bulletColor
           );
+
           this.game.addBody( bullet );
           this.game.shootSound.load();
           this.game.shootSound.play();
@@ -122,7 +137,6 @@ console.log("Invaded!");
     this.center  = center;
     this.patrolX = 0;
     this.speedX  = 0.3;
-
     this.fillColor = 'lime'; // aliens are green!
     this.bulletColor = 'red';
   };
@@ -137,18 +151,18 @@ console.log("Invaded!");
       this.patrolX  += this.speedX;
 
       if (!(this.game.invadersBelow(this)) && Math.random() > 0.995 ) {
+
         // fires a bullet
         var bullet = new Bullet( { x:this.center.x,
             y: this.center.y + (this.size.x / 2) },
           { x: Math.random() - 0.5, y: 2 },
           this.bulletColor
           );
+
         this.game.addBody(bullet);
       }
     }
-
   };
-
 
   var createInvaders = function( game ) {
     var invaders = [];
@@ -188,7 +202,6 @@ console.log("Invaded!");
     this.KEYS = {LEFT: 37, RIGHT: 39, SPACE: 32};
   };
 
-
   var loadSound = function( url, callback ) {
     var loaded = function(){
       callback(sound);
@@ -201,7 +214,7 @@ console.log("Invaded!");
   };
 
   var colliding = function( b1, b2 ) {
-    return !(b1 === b2 ||
+    return !( (b1 === b2) ||
       (b1.center.x + (b1.size.x / 2)) < (b2.center.x - (b2.size.x / 2)) ||
       (b1.center.y + (b1.size.y / 2)) < (b2.center.y - (b2.size.y / 2)) ||
       (b1.center.x - (b1.size.x / 2)) > (b2.center.x + (b2.size.x / 2)) ||
