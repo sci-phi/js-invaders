@@ -5,8 +5,9 @@
     var canvas = document.getElementById(canvasId);
     var screen = canvas.getContext('2d');
     var gameSize = { x: canvas.width, y: canvas.height };
+    var playerOne = new Player(this, gameSize);
 
-    this.bodies = createInvaders(this).concat( new Player(this, gameSize) );
+    this.bodies = createInvaders(this).concat( playerOne );
 
     var self = this;
 
@@ -21,6 +22,8 @@
 
         if (self.invaderBodies().length === 0){
           self.levelCleared( screen, gameSize );
+        } else if (self.playerBodies().length === 0){
+          self.gameOver( screen, gameSize );
         } else {
           requestAnimationFrame(tick);
         }
@@ -61,18 +64,28 @@
       return this.bodies.filter( function( b ) {
         return b instanceof Invader &&
           (b.center.y > invader.center.y) &&
-          ((b.center.x - invader.center.x) < invader.size.x)
-      }).length > 0;
+          ((b.center.x - invader.center.x) < invader.size.x);
+        }).length > 0;
     },
 
     invaderBodies: function() {
-      return this.bodies.filter( function( b ){ return b instanceof Invader } );
+      return this.bodies.filter( function( b ){ return b instanceof Invader;} );
+    },
+
+    playerBodies: function() {
+      return this.bodies.filter( function( b ){ return b instanceof Player; } );
     },
 
     levelCleared: function( screen, gameSize ) {
       console.log("Level Cleared!!!" );
       screen.clearRect( 0, 0, gameSize.x, gameSize.y );
       screen.fillText( "Level Cleared!", (gameSize.x / 2), (gameSize.y / 2) );
+    },
+
+    gameOver: function( screen, gameSize ) {
+      console.log("Game Over" );
+      screen.clearRect( 0, 0, gameSize.x, gameSize.y );
+      screen.fillText( "GAME OVER", (gameSize.x / 2), (gameSize.y / 2) );
     }
 
   };
@@ -101,7 +114,7 @@
       }
 
       if (this.keyboarder.isDown(this.keyboarder.KEYS.SPACE)) {
-        if ( this.firingDelay == 0 ) {
+        if ( this.firingDelay === 0 ) {
           var bullet = new Bullet( { x: this.center.x,
             y: (this.center.y - this.center.x / 2)},
             {x: 0, y: -6},
@@ -174,7 +187,7 @@
     }
 
     return invaders;
-  }
+  };
 
   var drawRect = function( screen, body ) {
     screen.fillStyle = body.fillColor ;
