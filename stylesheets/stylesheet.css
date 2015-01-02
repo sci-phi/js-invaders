@@ -245,3 +245,8 @@ a {
 .cf {
   zoom:1;
 }
+
+#game_screen{
+  border:1px solid lime;
+  background: white;
+}
