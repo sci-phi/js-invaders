@@ -11,20 +11,19 @@
 
     var self = this;
 
-    loadSound( "shoot.mp3", function( shootSound ) {
+    loadSound( "audio/shoot.mp3", function( shootSound ) {
 
       self.shootSound = shootSound;
 
       var tick = function() {
         self.update();
         self.draw(screen, gameSize);
-        // Key Callback Loop
-
         if (self.invaderBodies().length === 0){
           self.levelCleared( screen, gameSize );
         } else if (self.playerBodies().length === 0){
           self.gameOver( screen, gameSize );
         } else {
+          // Key Callback Loop
           requestAnimationFrame(tick);
         }
       };
