@@ -86,7 +86,6 @@
       screen.clearRect( 0, 0, gameSize.x, gameSize.y );
       screen.fillText( "GAME OVER", (gameSize.x / 2), (gameSize.y / 2) );
     }
-
   };
 
   var Player = function( game, gameSize ) {
@@ -107,9 +106,13 @@
       }
 
       if (this.keyboarder.isDown(this.keyboarder.KEYS.LEFT)) {
-        this.center.x -= 2;
+        if ( this.center.x > 0 ) {
+          this.center.x -= 2;
+        }
       } else if (this.keyboarder.isDown(this.keyboarder.KEYS.RIGHT)) {
-        this.center.x += 2;
+        if ( this.center.x < 310 ) {
+          this.center.x += 2;
+        }
       }
 
       if (this.keyboarder.isDown(this.keyboarder.KEYS.SPACE)) {
