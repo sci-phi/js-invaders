@@ -5,14 +5,17 @@ var Game = function(canvasId) {
   var gameSize = { x: canvas.width, y: canvas.height };
   var playerOne = new Player(this, gameSize);
 
-  this.bodies = createInvaders(this).concat( playerOne );
-
   var self = this;
 
   loadSound( "audio/shoot.mp3", function( shootSound ) {
     self.shootSound = shootSound;
   });
-  
+
+  self.startOver = function() {
+    self.bodies = createInvaders(self).concat( playerOne );
+    self.tick();
+  };
+
   self.tick = function() {
     self.update();
     self.draw(screen, gameSize);
@@ -80,5 +83,6 @@ Game.prototype = {
     console.log("Game Over" );
     screen.clearRect( 0, 0, gameSize.x, gameSize.y );
     screen.fillText( "GAME OVER", (gameSize.x / 2), (gameSize.y / 2) );
+    document.getElementById('start-over').style.display = 'inline';
   }
 };

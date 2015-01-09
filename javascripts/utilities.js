@@ -16,9 +16,10 @@ drawRect = function( screen, body ) {
 
   // starts the game
   window.onload = function(){
-
     window.game = {jsInvaders: new Game("screen")};
     // game object can now be referenced via "window.game.jsInvaders"
+    //window.game.jsInvaders.tick();
+    window.game.jsInvaders.startOver();
   };
 
 })();
