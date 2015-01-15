@@ -16,7 +16,7 @@ var Game = function(canvasId) {
   });
 
   self.startOver = function() {
-    document.getElementById('start-over').style.display = 'none';
+    document.getElementById('start-over').style.visibility = 'hidden';
     self.bodies = createInvaders(self).concat( playerOne );
     self.tick();
   };
@@ -82,7 +82,7 @@ Game.prototype = {
     console.log("Level Cleared!!!" );
     screen.clearRect( 0, 0, gameSize.x, gameSize.y );
     screen.fillText( "Level Cleared!", (gameSize.x / 2), (gameSize.y / 2) );
-    document.getElementById('start-over').style.display = 'inline';
+    document.getElementById('start-over').style.visibility = 'visible';
   },
 
   gameOver: function( screen, gameSize ) {
@@ -91,6 +91,6 @@ Game.prototype = {
     this.boomSound.play();
     screen.clearRect( 0, 0, gameSize.x, gameSize.y );
     screen.fillText( "GAME OVER", (gameSize.x / 2), (gameSize.y / 2) );
-    document.getElementById('start-over').style.display = 'inline';
+    document.getElementById('start-over').style.visibility = 'visible';
   }
 };
