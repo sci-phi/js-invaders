@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
 
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
@@ -30,10 +30,20 @@
       <section id="main_content">
         <p>Can you survive the alien invasion?</p>
 
-        <div id="game_screen">
-          <canvas id="screen" width="310" height="310">
+        <div id="game-panel" class="middle-50">
+          <canvas id="screen" width="310" height="310" >
+          <script src="javascripts/keyboarder.js"></script>
+          <script src="javascripts/bullet.js"></script>
+          <script src="javascripts/invader.js"></script>
+          <script src="javascripts/player.js"></script>
+          <script src="javascripts/sounder.js"></script>
           <script src="javascripts/game.js"></script>
-        </div>
+          <script src="javascripts/utilities.js"></script>
+        </canvas>
+        <br/>
+        <button id="start-over" onclick="javascript:window.game.jsInvaders.startOver();" class="middle-50">New Game</button>
+      </div>
+
 <h2>
 <a id="how-to-play" class="anchor" href="#how-to-play" aria-hidden="true"><span class="octicon octicon-link"></span></a>How To Play</h2>
 

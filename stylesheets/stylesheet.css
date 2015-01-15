@@ -246,7 +246,20 @@ a {
   zoom:1;
 }
 
-#game_screen{
+.middle-50 {
+  text-align: center;
+  width: 50%;
+  margin-left:  25%;
+  margin-right: 25%;
+}
+#screen {
+  margin-top: 10%;
+  background-color: white;
   border:1px solid lime;
-  background: white;
+}
+#start-over{
+  visibility: hidden;
+}
+#game-panel{
+  margin-bottom: 40px;
 }
