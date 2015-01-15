@@ -11,7 +11,12 @@ var Game = function(canvasId) {
     self.shootSound = shootSound;
   });
 
+  loadSound( "audio/kaboo.mp3", function( kabooSound ) {
+    self.boomSound = kabooSound;
+  });
+
   self.startOver = function() {
+    document.getElementById('start-over').style.display = 'none';
     self.bodies = createInvaders(self).concat( playerOne );
     self.tick();
   };
@@ -77,10 +82,13 @@ Game.prototype = {
     console.log("Level Cleared!!!" );
     screen.clearRect( 0, 0, gameSize.x, gameSize.y );
     screen.fillText( "Level Cleared!", (gameSize.x / 2), (gameSize.y / 2) );
+    document.getElementById('start-over').style.display = 'inline';
   },
 
   gameOver: function( screen, gameSize ) {
     console.log("Game Over" );
+    this.boomSound.load();
+    this.boomSound.play();
     screen.clearRect( 0, 0, gameSize.x, gameSize.y );
     screen.fillText( "GAME OVER", (gameSize.x / 2), (gameSize.y / 2) );
     document.getElementById('start-over').style.display = 'inline';

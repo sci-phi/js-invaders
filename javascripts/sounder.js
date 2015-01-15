@@ -8,8 +8,3 @@ var loadSound = function( url, callback ) {
   sound.addEventListener( 'canplaythrough', loaded );
   sound.load();
 };
-
-// loadSound( "audio/shoot.mp3", function( shootSound ) {
-//   self.shootSound = shootSound;
-//   self.tick();
-// });
